@@ -1,8 +1,9 @@
 require('dotenv').config()
 require('express-async-errors')
+
 const express = require('express')
 const connectdb = require('./db/connect')
-const auth = require('./middleware/authentication')
+const authentication = require('./middleware/authentication')
 
 const errorHandlerMiddleware = require('./middleware/error-handler')
 const notFound = require('./middleware/not-found')
@@ -10,7 +11,6 @@ const authrouter = require('./routes/auth')
 const jobsrouter = require('./routes/jobs')
 
 const app = express()
-app.use(express.json())
 
 //security
 const helmet = require('helmet')
@@ -23,20 +23,18 @@ app.use(rateLimiter({
     windowMs: 15 * 60 * 1000,
     max: 100
 }))
+app.use(express.json())
 app.use(helmet())
 app.use(cors())
 app.use(xssclean())
 
 
-
-
-
 //routes
 app.use('/api/auth', authrouter)
-app.use('/api/jobs',auth, jobsrouter)
+app.use('/api/jobs',authentication, jobsrouter)
 
-app.use(errorHandlerMiddleware)
 app.use(notFound)
+app.use(errorHandlerMiddleware)
 
 
 const port = process.env.PORT || 3000

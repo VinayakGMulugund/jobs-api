@@ -23,10 +23,9 @@ const userSchema = new mongoose.Schema({
 })
 
 //encrypt password
-userSchema.pre('save', async function(next) {
+userSchema.pre('save', async function() {
     const salt = await bcrypt.genSalt(10);
-    this.password = await bcrypt.hash(this.password,salt)   //this = current document 
-    next()
+    this.password = await bcrypt.hash(this.password,salt)   //this = current document
 })
 
 //jwt token generation

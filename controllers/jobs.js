@@ -2,10 +2,15 @@ const { StatusCodes } = require('http-status-codes')
 const Jobs = require('../models/Jobs')
 const { NotFoundError, BadRequestError} = require('../errors')
 
-const getAllJobs = async (req,res)=>{
+const getMyJobs = async (req,res)=>{
     const jobs = await Jobs.find({createdBy: req.user.userId}).sort('createdAt')
     res.status(StatusCodes.OK).json(jobs)
-} 
+}
+
+const getAllJobs = async (req,res)=>{
+    const jobs = await Jobs.find().sort('createdAt')
+    res.status(StatusCodes.OK).json(jobs)
+}
 
 const getJob = async (req,res)=>{
     const {user:{userId}, params:{id}} = req
@@ -51,4 +56,4 @@ const deleteJob = async (req,res)=>{
     res.status(StatusCodes.OK).send('job deleted')
 }
 
-module.exports = { getAllJobs, getJob, createJob, updateJob, deleteJob }
+module.exports = { getMyJobs, getAllJobs, getJob, createJob, updateJob, deleteJob }
