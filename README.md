@@ -1,7 +1,7 @@
 To run this project follow these steps
 
 1. To get the code use this command, make sure git is installed in your system
-https://github.com/VinayakGMulugund/jobs-api.git
+git clone https://github.com/VinayakGMulugund/jobs-api.git
 
 2. Install dependencies using the command 'npm install'
 
